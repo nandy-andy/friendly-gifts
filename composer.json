@@ -1,0 +1,14 @@
+{
+    "name": "nandy/friendly-gifts",
+    "description": "An after-hours project used since 2011 by me and my friends at winter holidays season.",
+    "require": {
+        "silex/silex": "~1.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrzej 'nAndy' Łukaszewski",
+            "email": "lukaszewski.a@gmail.com"
+        }
+    ]
+}
