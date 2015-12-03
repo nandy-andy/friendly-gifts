@@ -2,7 +2,8 @@
     "name": "nandy/friendly-gifts",
     "description": "An after-hours project used since 2011 by me and my friends at winter holidays season.",
     "require": {
-        "silex/silex": "~1.3"
+        "silex/silex": "~1.3",
+        "symfony/twig-bridge": "^3.0"
     },
     "license": "MIT",
     "authors": [

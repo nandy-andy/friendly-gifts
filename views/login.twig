@@ -1,0 +1,28 @@
+{% extends "layout.twig" %}
+
+{% block title %}- logowanie{% endblock %}
+
+{% block head %}
+   {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<form action="{{ app.request.host }}/login" method="post" id="login">
+    <fieldset>
+        <table>
+            <tr>
+                <td>Login:</td>
+                <td><input type="text" name="login" value="" /></td>
+            </tr>
+            <tr>
+                <td>Hasło:</td>
+                <td><input type="password" name="password" value="" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="ok" value="ok" /></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+{% endblock %}
