@@ -154,3 +154,7 @@ div#drawn strong
 {
 	font-size: 36pt;
 }
+
+#facebook {
+	display: none;
+}

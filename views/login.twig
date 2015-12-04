@@ -7,9 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if error %}
-        <div id="error">{{ error }}</div>
-    {% endif %}
+    <div id="error">{{ error }}</div>
     <form action="http://{{ app.request.host }}/login" method="post" id="login">
         <fieldset>
             <table>
@@ -23,7 +21,12 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="submit" name="ok" value="ok" /></td>
+                    <td>
+                        <input type="submit" name="ok" value="ok" />
+                        <span id="facebook">
+                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                        </span>
+                    </td>
                 </tr>
             </table>
         </fieldset>
