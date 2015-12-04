@@ -1,0 +1,24 @@
+{% extends "layout.twig" %}
+
+{% block title %}- zalogowany{% endblock %}
+
+{% block head %}
+   {{ parent() }}
+{% endblock %}
+
+{% block content %}
+   <div id="users">
+      ...
+   </div>
+   <div id="loggedInfo">
+      Zalogowany jako: {{ name }} <a href="http://{{ app.request.host }}/logout">Wyloguj</a>
+   </div>
+   <div id="drawnUser">
+      <form action="http://{{ app.request.host }}/draw" method="post">
+         <fieldset>
+            Jeszcze nikogo nie wylosowałeś. <input type="submit" id="drawBtn" name="losuj" value="Losuj teraz!" />
+         </fieldset>
+      </form>
+   </div>
+   <img id="gifts_pic" alt="gifts" src="gifts.png">
+{% endblock %}

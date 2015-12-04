@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 $app = new Silex\Application();
 
 $app['debug'] = true;
-$loggedIn = false;
+$loggedIn = true;
 
 // Providers
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
@@ -17,9 +17,9 @@ $app->get('/', function () use ($app, $loggedIn) {
       return $app->redirect('/login');
    }
 
-   return $app['twig']->render('hello.twig', array(
-      'name' => 'nAndy',
-   ));
+   return $app['twig']->render('dashboard.twig', [
+       'name' => 'nAndy'
+   ]);
 });
 
 $app->get('/login', function () use ($app) {
