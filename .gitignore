@@ -1,6 +1,8 @@
 composer.phar
 vendor/
 
+.idea
+
 users-dump.sql
 xg_users-2013.sql
 xmasusers.class-sample.php
