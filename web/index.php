@@ -1,9 +1,22 @@
 <?php
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/../models/User.class.php');
+require_once(__DIR__ . '/../config/config.php');
 
 $app = new Silex\Application();
 $app['debug'] = true;
+
+function logToFile( $input ) {
+    if( !is_string( $input ) ) {
+        $input = print_r( $input, true );
+    }
+
+    $file = fopen( '/var/log/nandy.log', 'a+' );
+    flock( $file, LOCK_EX );
+    fwrite( $file, $input );
+    flock( $file, LOCK_UN );
+    fclose( $file );
+}
 
 // Providers
 $app->register(new Silex\Provider\TwigServiceProvider(), [
@@ -18,7 +31,7 @@ $user = $app['session']->get('user');
 
 // Controllers
 $app->get('/', function () use ($app, $user) {
-   if( null === $user ) {
+   if( null === $user || !$user->isLoggedIn() ) {
       return $app->redirect('/login');
    }
 
@@ -32,7 +45,10 @@ $app->get('/login', function () use ($app) {
 });
 
 $app->post('/login', function (Request $request) use ($app) {
-   $user = new User\User($request->get('login'), $request->get('password'));
+   $user = new User\User([
+       'login' => $request->get('login'),
+       'password' => $request->get('password')
+   ]);
    $user->login();
 
    if( $user->isLoggedIn() ) {
@@ -45,9 +61,19 @@ $app->post('/login', function (Request $request) use ($app) {
    ]);
 });
 
+$app->post('/facebook', function (Request $request) use ($app) {
+    $user = new User\User([
+       'fid' => $request->get('fid'),
+       'name' => $request->get('name')
+   ]);
+
+   $app['session']->set('user', $user);
+   return $app->redirect('/');
+});
+
 $app->get('/logout', function () use ($app) {
    $app['session']->set('user', null);
-   return $app->redirect('/');
+   return $app->redirect('/login?logout');
 });
 
 $app->run();

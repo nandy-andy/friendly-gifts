@@ -7,8 +7,14 @@
       {% endblock %}
    </head>
    <body>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
       <script>
-         var isLoginPage = document.location.pathname === '/login';
+         var isLoginPage = document.location.pathname === '/login',
+             isLogoutPage = document.location.search === '?logout';
+
+         function goToMainPage() {
+            window.location = '/';
+         }
 
          function hideFbBtn() {
             if( isLoginPage ) {
@@ -29,9 +35,13 @@
          }
 
          function statusChangeCallback(response) {
-            if (response.status === 'connected' && isLoginPage) {
+            if (response.status === 'connected' && isLogoutPage) {
+               logout();
+            } else if (response.status === 'connected' && isLoginPage) {
                hideFbBtn();
                login();
+            } else if (response.status === 'connected' && !isLoginPage) {
+               // all good - user connected
             } else if (response.status === 'not_authorized') {
                console.log('Please log into this app on Facebook or provide login and password.');
                showFbBtn();
@@ -43,9 +53,6 @@
             }
          }
 
-         // This function is called when someone finishes with the Login
-         // Button.  See the onlogin handler attached to it in the sample
-         // code below.
          function checkLoginState() {
             FB.getLoginStatus(function(response) {
                statusChangeCallback(response);
@@ -59,9 +66,7 @@
                version    : 'v2.5'
             });
 
-            FB.getLoginStatus(function(response) {
-               statusChangeCallback(response);
-            });
+            checkLoginState();
          };
 
          (function(d, s, id){
@@ -73,10 +78,21 @@
          }(document, 'script', 'facebook-jssdk'));
 
          function login() {
-            console.log('Welcome!  Fetching your information...');
             FB.api('/me', function(response) {
-               console.log(response);
-               console.log('Successful login for: ' + response.name);
+               $.ajax({
+                  type: 'POST',
+                  url: "/facebook",
+                  data: "name=" + response.name + "&fid=" + response.id,
+                  success: function () {
+                     goToMainPage();
+                  }
+               });
+            });
+         }
+
+         function logout() {
+            FB.logout(function() {
+               goToMainPage();
             });
          }
       </script>
