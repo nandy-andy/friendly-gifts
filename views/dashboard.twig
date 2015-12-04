@@ -11,7 +11,7 @@
       ...
    </div>
    <div id="loggedInfo">
-      Zalogowany jako: {{ name }} <a href="http://{{ app.request.host }}/logout">Wyloguj</a>
+      Zalogowany jako: <strong>{{ name }}</strong> <a href="http://{{ app.request.host }}/logout">Wyloguj</a>
    </div>
    <div id="drawnUser">
       <form action="http://{{ app.request.host }}/draw" method="post">
